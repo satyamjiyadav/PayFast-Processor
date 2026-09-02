@@ -55,21 +55,21 @@ flowchart TB
     classDef queue fill:#ef4444,stroke:#dc2626,stroke-width:2px,color:#fff
 
     %% Nodes
-    Client((fa:fa-laptop React<br/>Frontend)):::frontend
-    AdminUI((fa:fa-lock Admin<br/>Dashboard)):::frontend
+    Client(("React Frontend")):::frontend
+    AdminUI(("Admin Dashboard")):::frontend
     
-    Gateway{fa:fa-server API Gateway<br/>(Sync Engine)}:::gateway
-    AdminAPI{fa:fa-shield Admin API}:::gateway
+    Gateway{"API Gateway (Sync)"}:::gateway
+    AdminAPI{"Admin API"}:::gateway
     
-    Kafka[[fa:fa-stream Apache Kafka<br/>Event Bus]]:::queue
+    Kafka[["Apache Kafka Event Bus"]]:::queue
     
-    Fraud[fa:fa-search Fraud Service]:::service
-    Ledger[fa:fa-book Ledger Service]:::service
-    Vault[fa:fa-key Vault Service]:::service
-    Webhook[fa:fa-plug Webhooks]:::service
+    Fraud["Fraud Service"]:::service
+    Ledger["Ledger Service"]:::service
+    Vault["Vault Service"]:::service
+    Webhook["Webhooks"]:::service
     
-    PG[(PostgreSQL<br/>Core DB)]:::database
-    Redis[(Redis<br/>Velocity Cache)]:::database
+    PG[("PostgreSQL")]:::database
+    Redis[("Redis")]:::database
 
     %% Connections
     Client -->|REST / Checkout| Gateway

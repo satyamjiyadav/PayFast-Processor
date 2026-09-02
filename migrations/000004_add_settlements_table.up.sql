@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS settlements (
+    id VARCHAR(50) PRIMARY KEY,
+    merchant_id VARCHAR(50) NOT NULL REFERENCES merchants(id),
+    amount BIGINT NOT NULL,
+    currency VARCHAR(3) NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'processed',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE payments ADD COLUMN settlement_id VARCHAR(50) REFERENCES settlements(id);

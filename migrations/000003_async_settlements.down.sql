@@ -1,0 +1,2 @@
+-- Postgres does not support removing ENUM values easily.
+-- This is a forward-only migration for the ENUMs.

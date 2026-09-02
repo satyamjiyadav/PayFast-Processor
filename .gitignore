@@ -1,0 +1,47 @@
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Node / Frontend
+node_modules/
+dist/
+build/
+.npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Logs
+*.log
+logs/
+
+# IDE / OS Files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker / Kubernetes
+# If you have local data folders for postgres/redis mounted
+data/
+pgdata/
+redisdata/
+kafka_data/
+
+# Antigravity artifacts
+.gemini/
+brain/
+services/*/main

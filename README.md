@@ -10,8 +10,8 @@ A robust, production-inspired payment processing pipeline that securely tokenize
 
 | Component | URL |
 | :--- | :--- |
-| 💳 **Live Application** | [http://130.210.0.152](http://130.210.0.152) |
-| 📊 **Admin Dashboard** | [http://130.210.0.152](http://130.210.0.152) *(Click 'Go to Merchant Dashboard')* |
+| 💳 **Live Application** | [https://payfast-payment-app.duckdns.org](https://payfast-payment-app.duckdns.org) |
+| 📊 **Admin Dashboard** | [https://payfast-payment-app.duckdns.org](https://payfast-payment-app.duckdns.org) *(Click 'Go to Merchant Dashboard')* |
 
 ---
 

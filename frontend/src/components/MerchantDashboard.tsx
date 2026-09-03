@@ -59,14 +59,21 @@ export default function MerchantDashboard({ onBackToCheckout }: MerchantDashboar
     }
   };
 
-  const issueRefund = async (paymentId: string, amount: number) => {
-    if (!window.confirm(`Are you sure you want to refund this payment?`)) return;
+  const [refundTarget, setRefundTarget] = useState<{ id: string; amount: number } | null>(null);
+  const [isRefunding, setIsRefunding] = useState(false);
+
+  const handleConfirmRefund = async () => {
+    if (!refundTarget) return;
     try {
-      await axios.post('/v1/admin/refunds', { payment_id: paymentId, amount });
+      setIsRefunding(true);
+      await axios.post('/v1/admin/refunds', { payment_id: refundTarget.id, amount: refundTarget.amount });
+      setRefundTarget(null);
       fetchData();
     } catch (err) {
       console.error("Failed to issue refund:", err);
       alert("Failed to issue refund. Please try again.");
+    } finally {
+      setIsRefunding(false);
     }
   };
 
@@ -407,7 +414,7 @@ export default function MerchantDashboard({ onBackToCheckout }: MerchantDashboar
                         <td className="px-6 py-4 text-right">
                           {p.status === 'processed' && (
                             <button
-                              onClick={(e) => { e.stopPropagation(); issueRefund(p.id, p.amount); }}
+                              onClick={(e) => { e.stopPropagation(); setRefundTarget({ id: p.id, amount: p.amount }); }}
                               className="text-xs font-medium text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded border border-blue-200 transition-colors"
                             >
                               Refund
@@ -568,6 +575,37 @@ export default function MerchantDashboard({ onBackToCheckout }: MerchantDashboar
           </div>
         </div>
       )}
+
+      {refundTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 border border-gray-100 animate-in fade-in zoom-in duration-150">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Confirm Refund</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Are you sure you want to issue a full refund of{' '}
+              <span className="font-semibold text-gray-900">${(refundTarget.amount / 100).toFixed(2)}</span> for payment{' '}
+              <span className="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded text-blue-600">{refundTarget.id}</span>?
+            </p>
+            <div className="flex items-center justify-end gap-3 mt-6">
+              <button
+                type="button"
+                disabled={isRefunding}
+                onClick={() => setRefundTarget(null)}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isRefunding}
+                onClick={handleConfirmRefund}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors shadow-sm disabled:opacity-50"
+              >
+                {isRefunding ? 'Refunding...' : 'Confirm Refund'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       
       <style>{`
         .hide-scrollbar::-webkit-scrollbar {
@@ -607,11 +645,13 @@ function StatusBadge({ status }: { status: string }) {
   const isProcessed = status === 'processed';
   const isFailed = status === 'failed';
   const isInitiated = status === 'initiated';
+  const isRefunded = status === 'refunded';
   
   let colorClass = 'bg-gray-100 text-gray-600 border-gray-200'; // created
   if (isProcessed) colorClass = 'bg-blue-50 text-blue-700 border-blue-200';
   if (isFailed) colorClass = 'bg-red-50 text-red-700 border-red-200';
   if (isInitiated) colorClass = 'bg-orange-50 text-orange-700 border-orange-200';
+  if (isRefunded) colorClass = 'bg-purple-50 text-purple-700 border-purple-200';
 
   return (
     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${colorClass}`}>

@@ -6,6 +6,15 @@ A robust, production-inspired payment processing pipeline that securely tokenize
 
 ---
 
+## 🌐 Live Demo
+
+| Component | URL |
+| :--- | :--- |
+| 💳 **Live Application** | [http://130.210.0.152](http://130.210.0.152) |
+| 📊 **Admin Dashboard** | [http://130.210.0.152](http://130.210.0.152) *(Click 'Go to Merchant Dashboard')* |
+
+---
+
 ## 🚀 Overview
 
 The project emphasizes engineering a **highly reliable, fault-tolerant payment system**, not simply a CRUD application.

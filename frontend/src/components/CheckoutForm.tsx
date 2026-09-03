@@ -44,12 +44,12 @@ export default function CheckoutForm() {
         tokenizePayload.bank_code = bankCode;
       }
 
-      const tokenRes = await axios.post('http://localhost:80/v1/tokens', tokenizePayload);
+      const tokenRes = await axios.post('/v1/tokens', tokenizePayload);
       const tokenId = tokenRes.data.token_id;
 
       // Step 2: Pay or Subscribe
       if (isSubscription) {
-        await axios.post('http://localhost:80/v1/subscriptions', {
+        await axios.post('/v1/subscriptions', {
           merchant_id: 'merch_01test',
           customer_id: 'cust_01',
           payment_method_id: tokenId,
@@ -65,7 +65,7 @@ export default function CheckoutForm() {
         });
         setMessage('Success! Subscription started.');
       } else {
-        const payRes = await axios.post('http://localhost:80/v1/payments', {
+        const payRes = await axios.post('/v1/payments', {
           amount: parseInt(amount),
           currency: 'usd',
           token_id: tokenId

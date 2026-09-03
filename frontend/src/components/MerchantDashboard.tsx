@@ -34,13 +34,13 @@ export default function MerchantDashboard({ onBackToCheckout }: MerchantDashboar
 
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:80/v1/admin/payments');
+      const res = await axios.get('/v1/admin/payments');
       setPayments(res.data || []);
-      const setRes = await axios.get('http://localhost:80/v1/admin/settlements');
+      const setRes = await axios.get('/v1/admin/settlements');
       setSettlements(setRes.data || []);
-      const refRes = await axios.get('http://localhost:80/v1/admin/refunds');
+      const refRes = await axios.get('/v1/admin/refunds');
       setRefunds(refRes.data || []);
-      const settingsRes = await axios.get('http://localhost:80/v1/admin/merchant/settings');
+      const settingsRes = await axios.get('/v1/admin/merchant/settings');
       if (settingsRes.data && settingsRes.data.payout_schedule) {
         setPayoutSchedule(settingsRes.data.payout_schedule);
       }
@@ -51,7 +51,7 @@ export default function MerchantDashboard({ onBackToCheckout }: MerchantDashboar
 
   const updateSettings = async (schedule: string) => {
     try {
-      await axios.put('http://localhost:80/v1/admin/merchant/settings', { payout_schedule: schedule });
+      await axios.put('/v1/admin/merchant/settings', { payout_schedule: schedule });
       setPayoutSchedule(schedule);
       setShowSettings(false);
     } catch (err) {
@@ -62,7 +62,7 @@ export default function MerchantDashboard({ onBackToCheckout }: MerchantDashboar
   const issueRefund = async (paymentId: string, amount: number) => {
     if (!window.confirm(`Are you sure you want to refund this payment?`)) return;
     try {
-      await axios.post('http://localhost:80/v1/admin/refunds', { payment_id: paymentId, amount });
+      await axios.post('/v1/admin/refunds', { payment_id: paymentId, amount });
       fetchData();
     } catch (err) {
       console.error("Failed to issue refund:", err);

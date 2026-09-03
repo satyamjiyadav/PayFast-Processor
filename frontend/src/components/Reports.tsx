@@ -8,7 +8,7 @@ const Reports: React.FC = () => {
   const handleDownload = async () => {
     try {
       setIsDownloading(true);
-      const response = await fetch(`http://localhost:80/v1/admin/reports/settlements?range=${timeRange}`);
+      const response = await fetch(`/v1/admin/reports/settlements?range=${timeRange}`);
       if (!response.ok) {
         throw new Error('Failed to fetch report');
       }
